@@ -2,8 +2,10 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/src/Presentation/bin
-/src/Presentation/obj
-**/.vs
+**/server.json
+**/pgData
+**/Lib
 **/obj
+**/bin
+**/.vs
 *.user
