@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option csharp_namespace = "Presentation.Protos";
+
+package face;
+
+service FaceDetection{
+	rpc Detect (FaceDetectionRequest) returns (FaceDetectionReply);
+}
+
+message FaceDetectionRequest {
+	bytes image = 1;
+	string id = 2;
+}
+
+message FaceDetectionReply {
+	string id = 1;
+	bool detected = 2;
+}

@@ -1,0 +1,60 @@
+﻿@page
+@model Presentation.Pages.CreateUserModel
+@{
+  ViewData["Title"] = "Create User";
+}
+
+<form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+  <div class="mb-3">
+    <label for="Email" class="form-label">Email address</label>
+    <input asp-for="User.Email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    <div class="invalid-feedback">
+      Please enter a valid email address.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="FirstName" class="form-label">First Name</label>
+    <input asp-for="User.FirstName" class="form-control" id="firstName" aria-describedby="fNameHelp" required>
+    <div class="invalid-feedback">
+      Your first name name is invalid.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="LastName" class="form-label">Last Name</label>
+    <input asp-for="User.LastName" class="form-control" aria-describedby="lNameHelp" required>
+    <div class="invalid-feedback">
+      Your first name name is invalid.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="formFile" class="form-label">Select image</label>
+    <input asp-for="ImageFile" class="form-control" type="file" id="formFile" required>
+    <div class="invalid-feedback">
+      Please choose a image.
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+@section Scripts{
+  <script>
+    (function () {
+      'use strict';
+      window.addEventListener('load', function () {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function (form) {
+          form.addEventListener('submit', function (event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+  </script>
+}

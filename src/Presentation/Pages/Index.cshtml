@@ -1,0 +1,48 @@
+﻿@page
+@model Presentation.Pages.IndexModel
+@{
+  ViewData["Title"] = "Home";
+}
+
+<div class="text-center">
+  <h1 class="display-4">Welcome</h1>
+  <p>Face recognition system with Python Learn about <a href="https://github.com/alisoltaniorg/recognizer">Recognizer</a>.</p>
+</div>
+<a asp-page="CreateUser" class="btn btn-outline-primary my-3">Create User</a>
+<table class="table table-light table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Full Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Face Detection status</th>
+      <th scope="col">Commands</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (User user in Model.Users)
+    {
+      <tr class="align-middle">
+        <th scope="row">@user.Id</th>
+        <td>@user.FullName</td>
+        <td>@user.Email</td>
+        <td>
+          @if (user.IsHuman)
+          {
+            <a href="/download?guid=@user.Guid">Download </a>
+
+            <span class="badge bg-success">Yes</span>
+          }
+          else
+          {
+            <span class="badge bg-secondary">Not Detected</span>
+          }
+        </td>
+        <td>
+          <a asp-page="/EditUser" asp-route-Guid="@user.Guid" class="btn btn-info">Modify</a>
+          <a asp-page-handler="Delete" asp-route-Guid="@user.Guid" class="btn btn-outline-danger">Delete</a>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
