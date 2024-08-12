@@ -1,12 +1,40 @@
 services:
-  presentation:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_HTTPS_PORTS=8081
+  postgresdb:
+    container_name: "postgresdb"
+    restart: always
     ports:
-      - "8080"
-      - "8081"
+      - "5432:5432"
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: RecognizerDb
+  presentation:
+    container_name: "presentation"
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8001
+    ports:
+      - '8080:8001'
+    depends_on:
+      - postgresdb
+  pyface:
+    container_name: "pyFace"
+    ports:
+      - '5000:5001'
+      - '5002:5002'
+  pgadmin:
+    container_name: "pgadmin"
+    restart: always
+    depends_on:
+      - postgresdb
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ali@email.com
+      PGADMIN_DEFAULT_PASSWORD: 1234
+      PGADMIN_LISTEN_PORT: 8888
+    ports:
+    - "8888:8888"
+    volumes:
+    - pgadmin_data:/pgadmin4/servers.json

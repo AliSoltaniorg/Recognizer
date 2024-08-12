@@ -1,49 +1,23 @@
 services:
+
   postgresdb:
     image: "postgres:latest"
-    container_name: "postgresdb"
-    restart: always
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./pgData:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: RecognizerDb
+
   presentation:
     image: ${DOCKER_REGISTRY-}presentation
-    container_name: "presentation"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_URLS=http://+:8001
     build:
       context: .
       dockerfile: src/Presentation/Dockerfile
-    ports:
-      - '8080:8001'
-    depends_on:
-      - postgresdb
+
   pyface:
     image: ${DOCKER_REGISTRY-}pyface
-    container_name: "pyFace"
     build:
       context: .
       dockerfile: src/PyFace/Dockerfile
-    ports:
-      - '5000:5001'
-      - '5002:5002'
+
   pgadmin:
     image: elestio/pgadmin:latest
-    restart: always
-    container_name: "pgadmin"
-    depends_on:
-      - postgresdb
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ali@email.com
-      PGADMIN_DEFAULT_PASSWORD: 1234
-      PGADMIN_LISTEN_PORT: 8888
-    ports:
-    - "8888:8888"
-    volumes:
-    - ./servers.json:/pgadmin4/servers.json
+
+volumes:
+  postgres_data:
+  pgadmin_data:
