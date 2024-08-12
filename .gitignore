@@ -9,3 +9,5 @@
 **/bin
 **/.vs
 *.user
+**/venv/scripts
+**/venv/Libs
